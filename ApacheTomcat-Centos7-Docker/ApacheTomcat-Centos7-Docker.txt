@@ -1,0 +1,17 @@
+FROM centos:7
+MAINTAINER sudarshanlnx
+RUN mkdir /opt/tomcat/
+WORKDIR /opt/tomcat/
+RUN yum install -y java-1.8.0-openjdk-devel.x86_64 wget tar unzip
+RUN useradd -m -U -d /opt/tomcat -s /bin/false tomcat
+WORKDIR /tmp
+RUN wget --no-check-certificate https://downloads.apache.org/tomcat/tomcat-9/v9.0.80/bin/apache-tomcat-9.0.80.tar.gz
+RUN tar -xvzf apache-tomcat-9.0.80.tar.gz
+RUN mv apache-tomcat-9.0.80 /opt/tomcat/
+RUN ln -s /opt/tomcat/apache-tomcat-9.0.80 /opt/tomcat/latest
+RUN chown -R tomcat: /opt/tomcat/
+WORKDIR /opt/tomcat/latest/bin
+RUN chmod +x /opt/tomcat/latest/bin/*.sh
+EXPOSE 8080
+CMD ["/opt/tomcat/latest/bin/catalina.sh", "run"]
+
