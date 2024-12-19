@@ -1,0 +1,7 @@
+FROM amazonlinux:2
+MAINTAINER devopsteam
+RUN yum -y install httpd wget unzip
+WORKDIR /tmp
+COPY index.html /var/www/html/
+EXPOSE 80
+CMD ["/usr/sbin/httpd", "-D", "FOREGROUND"]
